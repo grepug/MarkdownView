@@ -49,12 +49,14 @@ public struct RemarkEditor: View {
                     .offset(x: offsetX)
             }
                 
-            Button {
-                onOpenEditor?()
-            } label: {
-                Image(systemName: "arrow.up.left.and.arrow.down.right")
+            if let action = onOpenEditor {
+                Button {
+                    action()
+                } label: {
+                    Image(systemName: "arrow.up.left.and.arrow.down.right")
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
     }
 }
