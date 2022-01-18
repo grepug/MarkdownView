@@ -37,12 +37,14 @@ public struct MarkdownEditorWindow: View {
                 ToolbarButton(systemImageName: "paintbrush") {
                     format()
                 }
+                .help("格式化")
                 
                 ToolbarButton(systemImageName: "eye",
                               color: showingPreview ? .accentColor : nil,
                               action: {
                     showingPreview.toggle()
                 })
+                    .help("预览")
                     .popover(isPresented: $showingPreview) {
                         MarkdownPreview(markdownString)
                             .frame(width: 500, height: 800)
