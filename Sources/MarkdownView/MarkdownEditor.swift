@@ -9,6 +9,9 @@ public struct MarkdownEditor: View {
     }
     
     public var body: some View {
-        CodeEditor(source: $source, language: .markdown, theme: .agate)
+        CodeEditor(source: $source,
+                   language: .markdown,
+                   theme: .atelierSavannaLight,
+                   flags: .defaultEditorFlags)
     }
 }
