@@ -49,26 +49,12 @@ public struct RemarkEditor: View {
                     .offset(x: offsetX)
             }
                 
-            ButtonForOpenningMarkdownEditor {
+            Button {
                 onOpenEditor?()
+            } label: {
+                Image(systemName: "arrow.up.left.and.arrow.down.right")
             }
+            .buttonStyle(.plain)
         }
-    }
-}
-
-public struct ButtonForOpenningMarkdownEditor: View {
-    var action: (() -> Void)?
-    
-    public init(action: (() -> Void)? = nil) {
-        self.action = action
-    }
-    
-    public var body: some View {
-        Button {
-            action?()
-        } label: {
-            Image(systemName: "arrow.up.left.and.arrow.down.right")
-        }
-        .buttonStyle(.plain)
     }
 }
