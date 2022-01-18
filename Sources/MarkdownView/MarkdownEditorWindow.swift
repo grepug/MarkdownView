@@ -9,15 +9,18 @@ import SwiftUI
 import Prettier
 
 public struct MarkdownEditorWindow: View {
-    @Binding var markdownString: String
-
-    @State private var showingPreview = false
-    
     private static let prettier = PrettierFormatter(language: .markdown)
     private static var prettierPrepared = false
     
-    public init(markdownString: Binding<String>) {
+    @Binding var markdownString: String
+    @Binding var formatFlag: Int
+
+    @State private var showingPreview = false
+    
+    public init(markdownString: Binding<String>,
+                formatFlag: Binding<Int>) {
         self._markdownString = markdownString
+        self._formatFlag = formatFlag
         
         if !Self.prettierPrepared {
             Self.prettier.prepare()
@@ -27,14 +30,12 @@ public struct MarkdownEditorWindow: View {
     
     public var body: some View {
         MarkdownEditor(source: $markdownString)
+            .onChange(of: formatFlag, perform: { newValue in
+                format()
+            })
             .toolbar {
                 ToolbarButton(systemImageName: "paintbrush") {
-                    let res = Self.prettier.format(markdownString)
-                    
-                    switch res {
-                    case .success(let string): markdownString = string
-                    case .failure(let err): print(err)
-                    }
+                    format()
                 }
                 
                 ToolbarButton(systemImageName: "eye",
@@ -49,6 +50,14 @@ public struct MarkdownEditorWindow: View {
             }
     }
     
+    private func format() {
+        let res = Self.prettier.format(markdownString)
+        
+        switch res {
+        case .success(let string): markdownString = string
+        case .failure(let err): print(err)
+        }
+    }
 }
 
 struct ToolbarButton: View {
