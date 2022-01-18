@@ -4,6 +4,8 @@ import CodeEditor
 public struct MarkdownEditor: View {
     @Binding var source: String
     
+    @Environment(\.colorScheme) private var colorScheme
+    
     public init(source: Binding<String>) {
         self._source = source
     }
@@ -11,7 +13,7 @@ public struct MarkdownEditor: View {
     public var body: some View {
         CodeEditor(source: $source,
                    language: .markdown,
-                   theme: .atelierSavannaLight,
+                   theme: colorScheme == .dark ? .default : .atelierSavannaLight,
                    flags: .defaultEditorFlags)
     }
 }
